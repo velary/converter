@@ -6,10 +6,12 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import velary.github.com.plugins.*
 import velary.github.com.serveces.CurrencyExchangeService
+import velary.github.com.serveces.CurrencyRateService
 
 fun main() {
     val jacksonObjectMapper = jacksonObjectMapper()
-    val currencyExchangeService = CurrencyExchangeService(HttpClient(), jacksonObjectMapper)
+    val currencyRateService = CurrencyRateService(HttpClient(), jacksonObjectMapper)
+    val currencyExchangeService = CurrencyExchangeService(currencyRateService)
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         configureRouting(currencyExchangeService)
